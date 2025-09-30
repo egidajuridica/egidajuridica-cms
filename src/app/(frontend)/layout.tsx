@@ -2,8 +2,8 @@ import React from 'react'
 import './styles.css'
 
 export const metadata = {
-  description: 'Sistema de gestión de contenido del sitio web - Grupo Aguirre',
-  title: 'Grupo Aguirre',
+  description: 'Sistema de gestión de contenido del sitio web - Egida Juridica',
+  title: 'Egida Juridica ',
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon.ico',

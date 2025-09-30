@@ -12,7 +12,7 @@ const DynamicLogo = () => {
       <source srcSet="/logo1.png" media="(prefers-color-scheme: dark)" />
       <source srcSet="/logo2.png" media="(prefers-color-scheme: light)" />
       <Image
-        alt="Grupo Aguirre Logo"
+        alt="Egida Juridica Logo"
         height={150}
         src="/logo2.png"
         width={150}
@@ -42,7 +42,7 @@ export default async function HomePage() {
       <div className="home">
         <div className="content">
           <DynamicLogo />
-          {!user && <h2>Bienvenido a la Plataforma de Grupo Aguirre</h2>}
+          {!user && <h2>Bienvenido a la Plataforma de Egida Juridica</h2>}
           {user && <h2>Bienvenido de vuelta, {user.email}</h2>}
           <p>Sistema de gestión de contenido legal especializado</p>
           <div className="links">
@@ -57,7 +57,7 @@ export default async function HomePage() {
           </div>
         </div>
         <div className="footer">
-          <p>© Grupo Aguirre - Todos los derechos reservados 2025</p>
+          <p>© Egida Juridica - Todos los derechos reservados 2025</p>
         </div>
       </div>
     )
@@ -69,7 +69,7 @@ export default async function HomePage() {
       <div className="home">
         <div className="content">
           <DynamicLogo />
-          <h2>Bienvenido a la Plataforma de Grupo Aguirre</h2>
+          <h2>Bienvenido a la Plataforma de Egida Juridica</h2>
           <p>Sistema de gestión de contenido legal especializado</p>
           <div className="links">
             <a className="admin" href="/admin" rel="noopener noreferrer" target="_blank">
@@ -78,7 +78,7 @@ export default async function HomePage() {
           </div>
         </div>
         <div className="footer">
-          <p>© Grupo Aguirre - Todos los derechos reservados 2025</p>
+          <p>© Egida Juridica - Todos los derechos reservados 2025</p>
         </div>
       </div>
     )

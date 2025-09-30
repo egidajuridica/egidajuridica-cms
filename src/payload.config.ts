@@ -38,7 +38,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
     meta: {
-      titleSuffix: ' - Grupo Aguirre',
+      titleSuffix: ' - Egida Juridica',
     },
     components: {
       graphics: {

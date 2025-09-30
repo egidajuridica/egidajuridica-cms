@@ -20,7 +20,7 @@ export const Logo: React.FC = () => {
     >
       <Image
         src={logoSrc}
-        alt="Grupo Aguirre"
+        alt="Egida Juridica Logo"
         width={300}
         height={100}
         style={{
