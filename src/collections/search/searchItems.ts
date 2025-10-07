@@ -21,17 +21,10 @@ const SearchItems: CollectionConfig = {
     {
       name: 'type',
       label: 'Tipo de Contenido',
-      type: 'select',
+      type: 'relationship',
+      relationTo: 'content-types' as CollectionSlug,
       required: true,
-      options: [
-        { label: 'Blog', value: 'blog' },
-        { label: 'Documento', value: 'document' },
-        { label: 'Área', value: 'area' },
-        { label: 'Servicio', value: 'service' },
-        { label: 'Recurso', value: 'resource' },
-      ],
     },
-
     {
       name: 'title',
       label: 'Título',
@@ -56,6 +49,10 @@ const SearchItems: CollectionConfig = {
       type: 'relationship',
       relationTo: 'tags' as CollectionSlug,
       hasMany: true,
+      required: false,
+      filterOptions: {
+        type: { in: ['search'] },
+      },
     },
     {
       name: 'priority',

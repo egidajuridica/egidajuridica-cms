@@ -9,7 +9,7 @@ const Categories: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    hidden: true,
+    hidden: false,
   },
   access: {
     read: () => true,
@@ -18,6 +18,17 @@ const Categories: CollectionConfig = {
     delete: ({ req }) => req.user?.role === 'super-admin',
   },
   fields: [
+    {
+      name: 'scope',
+      label: 'Ámbito',
+      type: 'select',
+      required: true,
+      options: [
+        { label: 'Blog', value: 'blog' },
+        { label: 'Recursos Legales', value: 'legal' },
+      ],
+      defaultValue: 'blog',
+    },
     {
       name: 'name',
       label: 'Nombre',
@@ -30,9 +41,7 @@ const Categories: CollectionConfig = {
       label: 'Slug',
       type: 'text',
       unique: true,
-      admin: {
-        readOnly: true,
-      },
+      admin: { readOnly: true },
       hooks: {
         beforeValidate: [
           ({ value, data }) => {
@@ -42,6 +51,26 @@ const Categories: CollectionConfig = {
             return value
           },
         ],
+      },
+    },
+    {
+      name: 'tags',
+      label: 'Etiquetas relacionadas',
+      type: 'relationship',
+      relationTo: 'tags',
+      hasMany: true,
+      admin: {
+        condition: (data) => ['blog', 'legal'].includes(data?.scope),
+        description: 'Selecciona las etiquetas que pertenecen a esta categoría.',
+      },
+      filterOptions: ({ data }) => {
+        if (data?.scope === 'blog') {
+          return { type: { equals: 'blog' } }
+        }
+        if (data?.scope === 'legal') {
+          return { type: { equals: 'resource' } }
+        }
+        return false
       },
     },
   ],

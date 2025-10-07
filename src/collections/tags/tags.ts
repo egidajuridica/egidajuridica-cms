@@ -9,7 +9,7 @@ const Tags: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    description: 'Etiquetas unificadas para todo el contenido del sitio.',
+    description: 'Etiquetas unificadas pero con ámbito definido.',
   },
   access: {
     read: () => true,
@@ -31,9 +31,7 @@ const Tags: CollectionConfig = {
       label: 'Slug',
       type: 'text',
       unique: true,
-      admin: {
-        readOnly: true,
-      },
+      admin: { readOnly: true },
       hooks: {
         beforeValidate: [
           ({ value, data }) => {
@@ -46,9 +44,15 @@ const Tags: CollectionConfig = {
       },
     },
     {
-      name: 'description',
-      label: 'Descripción',
-      type: 'textarea',
+      name: 'type',
+      label: 'Tipo de Etiqueta',
+      type: 'select',
+      required: true,
+      options: [
+        { label: 'Blog', value: 'blog' },
+        { label: 'Recursos Legales', value: 'resource' },
+        { label: 'Buscador', value: 'search' },
+      ],
     },
   ],
 }

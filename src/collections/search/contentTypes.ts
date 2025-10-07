@@ -1,14 +1,14 @@
 import { CollectionConfig } from 'payload'
 
-const AdminUsers: CollectionConfig = {
-  slug: 'admin',
+const ContentTypes: CollectionConfig = {
+  slug: 'content-types',
   labels: {
-    singular: 'Administrador',
-    plural: 'Administradores',
+    singular: 'Tipo de Contenido',
+    plural: 'Tipos de Contenido',
   },
-  auth: true,
   admin: {
-    useAsTitle: 'email',
+    useAsTitle: 'name',
+    description: 'Define los tipos de contenido disponibles para el buscador.',
     hidden: true,
   },
   access: {
@@ -19,13 +19,13 @@ const AdminUsers: CollectionConfig = {
   },
   fields: [
     {
-      name: 'role',
-      type: 'select',
-      options: ['super-admin'],
+      name: 'name',
+      label: 'Nombre',
+      type: 'text',
       required: true,
-      defaultValue: 'super-admin',
+      unique: true,
     },
   ],
 }
 
-export default AdminUsers
+export default ContentTypes

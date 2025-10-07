@@ -9,6 +9,9 @@ const Authors: CollectionConfig = {
   admin: {
     useAsTitle: 'nombre',
   },
+  access: {
+    read: () => true,
+  },
   fields: [
     {
       name: 'nombre',

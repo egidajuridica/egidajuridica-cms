@@ -1,5 +1,4 @@
-import { CollectionConfig } from 'payload'
-import { CollectionSlug } from 'payload'
+import { CollectionConfig, CollectionSlug } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { slugify } from '../../utils'
 
@@ -31,8 +30,22 @@ const Blog: CollectionConfig = {
       name: 'category',
       label: 'Categoría',
       type: 'relationship',
-      relationTo: 'categories' as CollectionSlug,
+      relationTo: 'categories' as const,
       required: true,
+      filterOptions: {
+        scope: { in: ['blog'] },
+      },
+    },
+    {
+      name: 'tags',
+      label: 'Etiquetas',
+      type: 'relationship',
+      relationTo: 'tags' as CollectionSlug,
+      hasMany: true,
+      required: false,
+      filterOptions: {
+        type: { in: ['global', 'blog'] },
+      },
     },
     {
       name: 'title',
@@ -63,20 +76,12 @@ const Blog: CollectionConfig = {
       editor: lexicalEditor(),
       required: true,
     },
-
     {
       name: 'image',
       label: 'Imagen destacada',
       type: 'upload',
       relationTo: 'images' as CollectionSlug,
       required: false,
-    },
-    {
-      name: 'tags',
-      label: 'Etiquetas',
-      type: 'relationship',
-      relationTo: 'tags' as CollectionSlug,
-      hasMany: true,
     },
     {
       name: 'publishedDate',

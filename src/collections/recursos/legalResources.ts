@@ -1,5 +1,4 @@
-import { CollectionConfig } from 'payload'
-import { CollectionSlug } from 'payload'
+import { CollectionConfig, CollectionSlug } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { slugify } from '../../utils'
 
@@ -48,25 +47,31 @@ const LegalResources: CollectionConfig = {
       },
     },
     {
+      name: 'category',
+      label: 'Categoría',
+      type: 'relationship',
+      relationTo: 'categories' as const,
+      required: true,
+      filterOptions: {
+        scope: { in: ['legal'] },
+      },
+    },
+    {
+      name: 'tags',
+      label: 'Etiquetas',
+      type: 'relationship',
+      relationTo: 'tags' as CollectionSlug,
+      hasMany: true,
+      required: false,
+      filterOptions: {
+        type: { in: ['global', 'resource'] },
+      },
+    },
+    {
       name: 'descripcion',
       label: 'Descripción',
       type: 'textarea',
       required: true,
-    },
-    {
-      name: 'categoria',
-      label: 'Categoría',
-      type: 'select',
-      required: true,
-      options: [
-        { label: 'Formularios', value: 'formularios' },
-        { label: 'Contratos', value: 'contratos' },
-        { label: 'Guías Prácticas', value: 'guias-practicas' },
-        { label: 'Normativas', value: 'normativas' },
-        { label: 'Recursos de Emergencia', value: 'recursos-emergencia' },
-        { label: 'Plantillas', value: 'plantillas' },
-        { label: 'Otros', value: 'otros' },
-      ],
     },
     {
       name: 'archivo',
@@ -93,13 +98,6 @@ const LegalResources: CollectionConfig = {
       type: 'upload',
       relationTo: 'images' as CollectionSlug,
       required: true,
-    },
-    {
-      name: 'tags',
-      label: 'Etiquetas',
-      type: 'relationship',
-      relationTo: 'tags' as CollectionSlug,
-      hasMany: true,
     },
     {
       name: 'fechaPublicacion',
