@@ -15,6 +15,7 @@ import {
   Tags,
   Categories,
   legalResources,
+  contentTypes,
 } from './collections'
 import { setupErrorHandlers } from './app/error-handler'
 
@@ -59,6 +60,7 @@ export default buildConfig({
     Tags,
     Categories,
     legalResources,
+    contentTypes,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

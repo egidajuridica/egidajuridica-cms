@@ -76,6 +76,7 @@ export interface Config {
     tags: Tag;
     categories: Category;
     'legal-resources': LegalResource;
+    'content-types': ContentType;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -91,6 +92,7 @@ export interface Config {
     tags: TagsSelect<false> | TagsSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     'legal-resources': LegalResourcesSelect<false> | LegalResourcesSelect<true>;
+    'content-types': ContentTypesSelect<false> | ContentTypesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -229,6 +231,7 @@ export interface Blog {
   id: string;
   author: string | Author;
   category: string | Category;
+  tags?: (string | Tag)[] | null;
   title: string;
   slug: string;
   excerpt: string;
@@ -248,7 +251,6 @@ export interface Blog {
     [k: string]: unknown;
   };
   image?: (string | null) | Image;
-  tags?: (string | Tag)[] | null;
   publishedDate: string;
   status: 'published' | 'draft';
   updatedAt: string;
@@ -270,13 +272,18 @@ export interface Author {
  */
 export interface Category {
   id: string;
+  scope: 'blog' | 'legal';
   name: string;
   slug?: string | null;
+  /**
+   * Selecciona las etiquetas que pertenecen a esta categoría.
+   */
+  tags?: (string | Tag)[] | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
- * Etiquetas unificadas para todo el contenido del sitio.
+ * Etiquetas unificadas pero con ámbito definido.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tags".
@@ -285,7 +292,7 @@ export interface Tag {
   id: string;
   name: string;
   slug?: string | null;
-  description?: string | null;
+  type: 'blog' | 'resource' | 'search';
   updatedAt: string;
   createdAt: string;
 }
@@ -297,7 +304,7 @@ export interface Tag {
  */
 export interface SearchItem {
   id: string;
-  type: 'blog' | 'document' | 'area' | 'service' | 'resource';
+  type: string | ContentType;
   title: string;
   excerpt: string;
   url: string;
@@ -311,6 +318,18 @@ export interface SearchItem {
   createdAt: string;
 }
 /**
+ * Define los tipos de contenido disponibles para el buscador.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "content-types".
+ */
+export interface ContentType {
+  id: string;
+  name: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "legal-resources".
  */
@@ -319,15 +338,9 @@ export interface LegalResource {
   tipo: 'documento' | 'articulo';
   titulo: string;
   slug: string;
+  category: string | Category;
+  tags?: (string | Tag)[] | null;
   descripcion: string;
-  categoria:
-    | 'formularios'
-    | 'contratos'
-    | 'guias-practicas'
-    | 'normativas'
-    | 'recursos-emergencia'
-    | 'plantillas'
-    | 'otros';
   /**
    * Archivo PDF que se mostrará para descargar o previsualizar
    */
@@ -348,7 +361,6 @@ export interface LegalResource {
     [k: string]: unknown;
   } | null;
   imagenDestacada: string | Image;
-  tags?: (string | Tag)[] | null;
   fechaPublicacion: string;
   status: 'published' | 'draft';
   updatedAt: string;
@@ -396,6 +408,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'legal-resources';
         value: string | LegalResource;
+      } | null)
+    | ({
+        relationTo: 'content-types';
+        value: string | ContentType;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -544,12 +560,12 @@ export interface DocumentsSelect<T extends boolean = true> {
 export interface BlogSelect<T extends boolean = true> {
   author?: T;
   category?: T;
+  tags?: T;
   title?: T;
   slug?: T;
   excerpt?: T;
   content?: T;
   image?: T;
-  tags?: T;
   publishedDate?: T;
   status?: T;
   updatedAt?: T;
@@ -586,7 +602,7 @@ export interface SearchItemsSelect<T extends boolean = true> {
 export interface TagsSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
-  description?: T;
+  type?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -595,8 +611,10 @@ export interface TagsSelect<T extends boolean = true> {
  * via the `definition` "categories_select".
  */
 export interface CategoriesSelect<T extends boolean = true> {
+  scope?: T;
   name?: T;
   slug?: T;
+  tags?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -608,14 +626,23 @@ export interface LegalResourcesSelect<T extends boolean = true> {
   tipo?: T;
   titulo?: T;
   slug?: T;
+  category?: T;
+  tags?: T;
   descripcion?: T;
-  categoria?: T;
   archivo?: T;
   contenido?: T;
   imagenDestacada?: T;
-  tags?: T;
   fechaPublicacion?: T;
   status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "content-types_select".
+ */
+export interface ContentTypesSelect<T extends boolean = true> {
+  name?: T;
   updatedAt?: T;
   createdAt?: T;
 }
