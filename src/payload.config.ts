@@ -33,6 +33,10 @@ const isS3Configured = s3Bucket && s3Region && s3AccessKeyId && s3SecretAccessKe
 
 export default buildConfig({
   sharp,
+  serverURL: 'https://app.egidajuridica.com',
+  cors: ['https://www.egidajuridica.com', 'https://app.egidajuridica.com', 'http://localhost:3000'],
+  csrf: ['https://www.egidajuridica.com', 'https://app.egidajuridica.com', 'http://localhost:3000'],
+
   admin: {
     user: AdminUsers.slug,
     importMap: {
@@ -62,11 +66,14 @@ export default buildConfig({
     legalResources,
     contentTypes,
   ],
+
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
+
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
+
   db: mongooseAdapter({
     url: process.env.MONGODB_URI || '',
   }),
